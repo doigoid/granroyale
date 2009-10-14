@@ -1,0 +1,11 @@
+*~
+bin
+parts
+develop-eggs
+eggs
+.installed.cfg
+downloads
+*.pyc
+*.pyo
+granroyale_testing
+src/granroyale.egg-info
