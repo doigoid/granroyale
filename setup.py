@@ -14,6 +14,6 @@ setup(
         'MySQL-python',
         'South',
         'simplejson',
-        'django-photologue',
+        'django-imagekit',
     ],
 )

@@ -9,3 +9,4 @@ downloads
 *.pyo
 granroyale_testing
 src/granroyale.egg-info
+/static/m/.DS_Store
