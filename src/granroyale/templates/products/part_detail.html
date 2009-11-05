@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% include "slideviewer.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="product-title">
+  <span class="bordered-title">
+   {{ object.name }}
+  </span>
+</div>
+
+<div class="product-main-image">
+  <div id="slideview" class="svw"> 
+    <ul> 
+      {% for photo in object.primary_photos.all %}
+        <li><img alt="{{ photo.title }}"  src="{{ photo.display.url }}" /></li> 
+      {% endfor %}
+    </ul> 
+  </div>     
+</div>
+
+<div>
+<p>{{ object.description }}</p>
+{{ object.features|safe }}
+{% if object.sizes %}<p><em>Sizes</em>: {{ object.sizes }}</p><{% endif %}
+{% if object.weight %}<p><em>Weight</em>: {{ object.weight }}</p><{% endif %}
+{% if object.colors %}<p><em>Colors</em>: {{ object.colors }}</p><{% endif %}
+{% if object.msrp %}<p><em>MSRP</em>: {{ object.msrp }}</p><{% endif %}
+</div>
+
+<div class="clear">&nbsp;</div>
+{% endblock %}

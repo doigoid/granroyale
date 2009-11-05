@@ -10,3 +10,6 @@ downloads
 granroyale_testing
 src/granroyale.egg-info
 /static/m/.DS_Store
+/static/m/photologue/*
+/static/m/photos/*
+/static/m/products/*

@@ -1,0 +1,27 @@
+
+ <div class="product-listing">
+  <div class="product-main-image">
+    
+    <div class="product-logo">
+      <img src="{{ MEDIA_URL }}{{ product.small_product_logo }}" />
+    </div>
+
+    <a href="{{ product.get_absolute_url }}">
+      <img border='0' src="{{ product.display_photo.display.url }}" />
+    </a>
+    
+  </div>
+  <div class="product-thumbnails">
+    {% for photo in product.primary_photos.all %}
+
+       {% ifnotequal photo product.display_photo %}
+
+       <a href="{{ product.get_absolute_url }}">
+         <img src="{{ photo.thumb.url }}" class="thumbnail" />
+       </a>
+
+       {% endifnotequal %}
+    {% endfor %}
+  </div>
+  <div class="clear"> </div>
+</div>

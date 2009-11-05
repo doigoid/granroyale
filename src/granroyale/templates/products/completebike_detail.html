@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% include "slideviewer.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="product-title">
+  <img src="{{ MEDIA_URL}}/{{ object.product_logo }}" />
+</div>
+
+<div class="product-main-image">
+  <div id="slideview" class="svw"> 
+    <ul> 
+      {% for photo in object.primary_photos.all %}
+        <li><a href="{{ photo.original_image.url }}"><img alt="{{ photo.title }}" border="0" src="{{ photo.display.url }}" /></a></li> 
+      {% endfor %}
+    </ul> 
+  </div>
+</div>
+<div>
+  <img src="{{ MEDIA_URL }}{{ object.small_product_logo }}" />
+  
+</div>
+
+<div class="clear"></div>
+
+<div class="tricol">
+ <p>
+   {{ object.description }}
+ </p>
+</div>
+
+<div class="tricol">
+  <h3>Key Features</h3>
+  {{ object.features|safe }}
+  
+  <ul>
+    {% if object.msrp %}<li><em>MSRP</em>: {{ object.msrp }}</li>{% endif %}
+    {% if object.colors %}<li><em>Colors</em>: {{ object.colors }}</li>{% endif %}
+    {% if object.sizes %}<li><em>Sizes</em>: {{ object.sizes }}</li>{% endif %}
+    {% if object.weight %}<li><em>Weight</em>: {{ object.weight }}</li>{% endif %}
+  </ul>
+
+</div>
+
+<div class="tricol">
+  <h3>More Images</h3>
+  {% for photo in object.secondary_photos.all %}
+  <a href="{{ photo.original_image.url }}"><img class="bordered" src="{{ photo.s_thumbnail_image.url }}" /></a>
+  {% endfor %}
+</div>
+
+<div class="clear"></div>
+{% endblock %}

@@ -1,42 +1,63 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  	<title>{% block head_title %}{% endblock %} Gran Royale Bicycles</title>
-  	<link href="/m/css/styles.css" rel="stylesheet" type="text/css"/>
-    {% block head %}{% endblock %}
-
+<title>{% block head_title %}{% endblock %} Gran Royale Bicycles</title>
+<link href="{{ MEDIA_URL }}css/styles.css" rel="stylesheet" type="text/css"/>
+<link href="{{ MEDIA_URL }}img/favicon.png" rel="shortcut icon" />
+{% block head %}{% endblock %}
 </head>
 
 <body>
-  
+<div id="window">
 <div id="page">
-   
   <div id="nav">
+  {% url home as url_home %}
+  {% url products_completebikes as url_products_bikes %}
+  {% url products_parts as url_products_parts %}
+  {% url products_softgoods as url_products_softgoods %}
+  {% url dealers as url_dealers %}
+  {% url about as url_about %}
     <ul>
-      <li><a href='#' id="nav-home"><span>HOME</span></a></li>
-      <li><a href='#' id="nav-bikes"><span>BIKES</span></a></li>
-      <li><a href='#' id="nav-accessories"><span>ACCESSORIES</span></a></li>
-      <li><a href='#' id="nav-softgoods"><span>SOFTGOODS</span></a></li>
-      <li><a href='#' id="nav-dealers"><span>DEALERS</span></a></li>
-      <li><a href='#' id="nav-about"><span>ABOUT</span></a></li>
+      <li>
+        <a {% ifequal request.path url_home %}class="active"{% endifequal %} href='{{ url_home }}' id="nav-home">
+          <span>HOME</span>
+        </a>
+      </li>
+      <li>
+        <a {% ifequal request.path url_products_bikes %}class="active"{% endifequal %} href='{{ url_products_bikes }}' id="nav-bikes">
+          <span>BIKES</span>
+        </a>
+      </li>
+      <li>
+        <a {% ifequal request.path url_products_parts %}class="active"{% endifequal %} href='{{ url_products_parts }}' id="nav-accessories">
+          <span>ACCESSORIES</span>
+        </a>
+      </li>
+      <li>
+        <a {% ifequal request.path url_products_softgoods %}class="active"{% endifequal %} href='{{ url_products_softgoods }}' id="nav-softgoods">
+          <span>SOFTGOODS</span>
+        </a>
+      </li>
+      <li>
+        <a {% ifequal request.path url_dealers %}class="active"{% endifequal %} href='{{ url_dealers }}' id="nav-dealers">
+          <span>DEALERS</span>
+        </a>
+      </li>
+      <li>
+        <a {% ifequal request.path url_about %}class="active"{% endifequal %} href='{{ url_about }}' id="nav-about">
+          <span>ABOUT</span>
+        </a>
+      </li>
     </ul>
   </div>
-
   <div id="teaser">
-    <img src="{{ MEDIA_URL }}/img/teaser-zack.gif" />
+    {% block teaser %}{% endblock %}
   </div>
-  
   <div id="content">
    {% block content %}{% endblock %}
   </div>
-
 </div>
-
+</div>
 </body>
-

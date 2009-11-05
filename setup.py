@@ -15,5 +15,6 @@ setup(
         'South',
         'simplejson',
         'django-imagekit',
+        'django-debug-toolbar',
     ],
 )

@@ -73,7 +73,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'granroyale.urls'
 
@@ -92,8 +95,10 @@ INSTALLED_APPS = (
     
     # 3rd party apps
     'south',
+    'debug_toolbar',
             
     # granroyale
     'granroyale.products',
+    'granroyale.dealers',
     
 )

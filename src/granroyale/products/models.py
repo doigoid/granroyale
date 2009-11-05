@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
 from imagekit.models import ImageModel
@@ -18,35 +19,21 @@ class Catalog(models.Model):
     def __unicode__(self):
         return str(self.year)
 
-class Photo(ImageModel):
+class ProductManager(models.Manager):
 
-    POOLS = [
-        ('CompleteBike', 'Complete Bikes'),
-        ('Part', 'Parts'),
-        ('SoftGood', 'Soft Goods'),
-    ]
+    def public(self, **kwargs):
+        
+        kwargs['public'] = True
+
+        return super(ProductManager, self).filter(**kwargs)
+
     
-    title = models.CharField(_('Photo title'), max_length=128)
-    original_image = models.ImageField(upload_to='photos/products/')
-
-    main_photo = models.BooleanField(_("Main photo for product"), default=False)
-
-    pool = models.CharField(choices=POOLS, max_length=32)
-    parts_pool = models.ForeignKey('PartType',
-                                   help_text=_('If the photo is a part, what type of part is it of?'),
-                                   blank=True, null=True)
-    def __unicode__(self):
-        return self.title
-    
-    class IKOptions:        
-        spec_module = 'granroyale.products.imagespecs'
-        cache_dir = 'photos'
-        image_field = 'original_image'
-
 class Product(models.Model):
 
     name = models.CharField(_('Product name'), max_length=50)
     catalog = models.ManyToManyField(Catalog, related_name="%(class)s")
+
+    slug = models.SlugField()
 
     description = models.TextField(_('Description'), blank=True)
 
@@ -57,6 +44,11 @@ class Product(models.Model):
 
     colors = models.CharField(max_length=250, blank=True)
     public = models.BooleanField(default=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    objects = ProductManager()
     
     class Meta:
         abstract = True
@@ -65,6 +57,29 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+         subclass = self.__class__.__name__.lower()
+         return ('products_%ss_view' % subclass, (), {'slug': self.slug})
+
+    
+    @property
+    def display_photo(self):
+
+        try:
+            return self.photos.filter(main_photo=True).order_by("-created")[0]
+        except Exception:
+
+            # if no main_photo is set, then return first in set
+            
+            return None
+
+    def primary_photos(self):
+        return self.photos.filter(parent_photo=None)
+
+    def secondary_photos(self):
+        return self.photos.filter(parent_photo__isnull=False)
+    
 class ProductClass(models.Model):
 
     name = models.CharField(_('Product class'), max_length=50)
@@ -102,9 +117,14 @@ class HardGood (Product):
     class Meta:
         abstract = True
 
-class PartType(models.Model):
+class Type(models.Model):
 
     name = models.CharField(_('Name'), max_length=50)
+
+    slug = models.SlugField()
+
+    softgood = models.BooleanField(_('Is this is soft good type?'))
+    
     parent = models.ForeignKey('self', related_name="children", blank=True, null=True)
     description = models.TextField(_('Description'), blank=True)
     
@@ -113,32 +133,92 @@ class PartType(models.Model):
     
     class Meta:
         ordering = ['name']
-    
+
+# PRODUCT TYPES
+
 class Part(HardGood):
 
-    part_type = models.ForeignKey(PartType)
-    photos = models.ManyToManyField(Photo, related_name='%(class)s',
+    part_type = models.ForeignKey(Type)
+    photos = models.ManyToManyField('Photo', related_name='%(class)s',
                                     blank=True, null=True,
                                     limit_choices_to={'pool':'Part'})   
     class Meta:
         ordering = ['name']
+
     
 class CompleteBike(HardGood):
 
-    components = models.ManyToManyField(Part, blank=True, null=True)
-    top_tube_sizes = models.CharField(max_length=250, blank=True)
-    
-    showcase_image = models.ImageField(upload_to="products/completes/showcase/")
     product_logo = models.ImageField(upload_to="products/completes/logos/")
-    photos = models.ManyToManyField(Photo, related_name='%(class)s',
+    small_product_logo = models.ImageField(upload_to="products/completes/logos/")
+    
+    photos = models.ManyToManyField('Photo', related_name='%(class)s',
                                     blank=True, null=True,
                                     limit_choices_to={'pool':'CompleteBike'})
     
+    
 class SoftGood(Product):
 
-    photos = models.ManyToManyField(Photo, related_name='%(class)s',
+    photos = models.ManyToManyField('Photo', related_name='%(class)s',
                                     blank=True, null=True,
                                     limit_choices_to={'pool':'SoftGood'})
-    
     class Meta:
         ordering = ['name']
+
+    
+class Photo(ImageModel):
+
+    POOLS = [
+        ('CompleteBike', 'Complete Bikes'),
+        ('Part', 'Parts'),
+        ('SoftGood', 'Soft Goods'),
+    ]
+    
+    title = models.CharField(_('Photo title'), max_length=128)
+    original_image = models.ImageField(upload_to='photos/products/')
+
+    main_photo = models.BooleanField(_("Main photo for product"), default=False)
+
+    parent_photo = models.ForeignKey('self', related_name="angles", null=True, blank=True,)
+    
+    pool = models.CharField(choices=POOLS, max_length=32)
+    parts_pool = models.ForeignKey('Type',
+                                   help_text=_('If the photo is a part, what type of part is it of?'),
+                                   blank=True, null=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('pool', 'title',)
+    
+    def __unicode__(self):
+        return self.title
+
+    @property
+    def angleshot(self):
+        return self.parent_photo is not None
+
+    @property
+    def products(self):
+        """ Alias for the reverse relations of product photos """
+        
+        if self.pool == 'CompleteBike':
+            return self.completebike
+        elif self.pool == 'Part':
+            return self.part
+        elif self.pool == 'SoftGood':
+            return self.softgood
+        else:
+            return None
+
+    @property
+    def thumb(self):
+        if self.original_image.height >= self.original_image.width:
+            return self.v_thumbnail_image
+        else:
+            return self.h_thumbnail_image
+    
+    class IKOptions:        
+        spec_module = 'granroyale.products.imagespecs'
+        cache_dir = 'photos'
+        image_field = 'original_image'

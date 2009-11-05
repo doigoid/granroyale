@@ -1,0 +1,11 @@
+<ul class="products">
+{% for product in object_list %}
+<li>
+  <div style="display:inline">
+    <a href="{{ product.get_absolute_url }}">
+      <img src="{{ product.display_photo.medium_image.url }}" />
+    </a>
+  </div>
+</li>
+{% endfor %}
+</ul>
