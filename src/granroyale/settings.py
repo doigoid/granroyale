@@ -15,7 +15,7 @@ MANAGERS = ADMINS
 DATABASE_ENGINE = 'sqlite3'
 DATABASE_NAME = 'granroyale'
 if DEBUG:
-    DATABASE_NAME = 'granroyale_debug'
+    DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'granroyale_debug')
 DATABASE_USER = ''    
 DATABASE_PASSWORD = ''
 DATABASE_HOST = ''
@@ -83,6 +83,10 @@ ROOT_URLCONF = 'granroyale.urls'
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), "templates"),
 )
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS' : False,
+}
 
 INSTALLED_APPS = (
 
