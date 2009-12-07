@@ -9,7 +9,7 @@
 	<a id="nav-womens" href="{% url products_completebikes_womens %}" class="active">
 		<span>WOMENS</span>
 	</a>
-	<ul>
+	<ul style="clear:left;margin-left:70px;">
 		{% for bike in object_list %}
 		<li>
 			<a href="{{ bike.get_absolute_url }}">{{ bike }}</a>

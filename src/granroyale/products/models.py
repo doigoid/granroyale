@@ -157,6 +157,13 @@ class CompleteBike(HardGood):
     photos = models.ManyToManyField('Photo', related_name='%(class)s',
                                     blank=True, null=True,
                                     limit_choices_to={'pool':'CompleteBike'})
+                                    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('products_completebikes_%s_view' % str(self.classification), (), {
+            'slug': self.slug
+        })
+    
     
     
 class SoftGood(Product):
