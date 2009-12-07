@@ -23,7 +23,10 @@ class PhotoAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',) }
 
-admin.site.register(models.CompleteBike, ProductAdmin)
+class CompleteBikeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'classification')
+
+admin.site.register(models.CompleteBike, CompleteBikeAdmin)
 admin.site.register(models.SoftGood, ProductAdmin)
 admin.site.register(models.Photo, PhotoAdmin)
 admin.site.register(models.Type, ProductAdmin)
