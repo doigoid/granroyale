@@ -33,20 +33,42 @@ li { font-size:80% }
 	position:relative;
 }
 /** navigation menu **/
-#nav { position:absolute; top:10px; left:150px;	height:50px; width:700px;}
-#nav ul { padding:0; margin:5px 0 0 35px; }
-#nav ul>li { display:inline; list-style:none; padding:0px; margin:0px;}
-#nav ul>li>a { display:block; height:14px; margin:15px; float:left; }
-#nav ul>li>a:hover, #nav ul>li>a.active { background-position:0px -14px;
-                                          padding-bottom:3px;
-                                          border-bottom:5px #ddd solid; }
-#nav ul>li>a>span { display:none }
+#navigation0 { position:absolute; top:10px; left:150px; height:14px; width:700px;}
+#navigation1 { position:absolute; top:40px; left:150px; height:14px; width:700px;}
+#navigation2 { position:absolute; top:60px; left:150px; height:14px; width:700px;}
+
+#nav, #extra_nav, #sub_nav { padding:0; margin:0px 0 0 35px; }
+#nav>li, #extra_nav>li { display:inline; list-style:none; padding:0px; margin:0px;}
+#nav>li>a, #extra_nav>li>a { display:block; height:14px; margin:15px; float:left; }
+#nav>li>a:hover, #nav>li>a.active { 
+    background-position:0px -14px;
+    padding-bottom:3px;
+    border-bottom:5px #ddd solid; }
+#nav>li>a>span, #extra_nav>li>a>span { display:none }
+
+#extra_navigation { top:40px }
+#extra_nav>li>a { height:12px; }
+#extra_nav>li>a:hover, #extra_nav li>a.active { background-position:0px -12px; }
+#extra_nav>li>ul { float:left; margin:none; padding:none;}
+#extra_nav>li>ul>li { list-style:none; margin:none; padding:none; }
+#extra_nav>li>ul>li>a { 
+    margin:none; padding:none; text-decoration:none; 
+    font-size:100%;
+    color:#333; 
+}
+
 #nav-home { width:47px; background:url('/m/img/nav-home.gif') top left no-repeat; }
 #nav-bikes { width:49px; background:url('/m/img/nav-bikes.gif') top left no-repeat; }
 #nav-accessories { width:115px; background:url('/m/img/nav-accessories.gif') top left no-repeat; }
-#nav-softgoods { width:97px; background:url('/m/img/nav-softgoods.gif') top left no-repeat; }
+#nav-apparel { width:75px; background:url('/m/img/nav-apparel.gif') top left no-repeat; }
 #nav-dealers { width:75px; background:url('/m/img/nav-dealers.gif') top left no-repeat; }
 #nav-about { width:55px; background:url('/m/img/nav-about.gif') top left no-repeat; }
+#nav-aristocrat { width:91px; background:url('/m/img/nav-aristocrat.gif') top left no-repeat; }
+#nav-lurker { width:60px; background:url('/m/img/nav-lurker.gif') top left no-repeat; }
+#nav-mens { width:40px; background:url('/m/img/nav-mens.gif') top left no-repeat; height:12px; }
+#nav-womens { width:60px; background:url('/m/img/nav-womens.gif') top left no-repeat; height:13px; }
+
+.extra_nav-bikes  { padding-left:80px }
 
 #teaser { margin-top:75px; width:100%; min-height:50px; }
 #content { padding:10px; }
@@ -54,7 +76,7 @@ li { font-size:80% }
 .tricol { width:33%; float:left; }
 .tricol p,h1,h2,h3,h4,h5,span { padding:0 5px; }
 .inline { display:inline; width:auto;}
-
+.bicol { width:50%; float:left; }
 .clear { height:0px;clear:both; }
 .center { text-align:center }
 
@@ -106,7 +128,7 @@ ul.products li a { display:inline; text-decoration:none }
 /*** Slideviewer ***/
 
 /*preload classes*/ 
-#slideview { margin:0 auto; }
+#slideview { margin:0 auto; width:580px; }
 
 .svw {width: 50px; height: 20px; background: #fff;} 
 .svw ul {position: relative; left: -999em;} 

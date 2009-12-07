@@ -44,9 +44,11 @@ class Product(models.Model):
 
     colors = models.CharField(max_length=250, blank=True)
     public = models.BooleanField(default=True)
-
+    
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    pdf = models.FileField(_('Printable PDF'), upload_to='products/pdf/')
 
     objects = ProductManager()
     
@@ -106,7 +108,7 @@ class ProductCategory(models.Model):
 
 class HardGood (Product):
 
-    classes = models.ManyToManyField(ProductClass, related_name='%(class)s')
+    classification = models.ForeignKey(ProductClass, related_name='%(class)s')
     categories = models.ManyToManyField(ProductCategory, related_name='%(class)s')
     
     features = models.TextField(blank=True)

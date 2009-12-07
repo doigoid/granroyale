@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block extra_nav %}
+
+<div id="navigation1" class="extra_nav-bikes">
+ <ul id="extra_nav">
+  <li><a id="nav-mens" href="{% url products_completebikes_mens %}"><span>MENS</span></a></li>
+  <li>
+	<a id="nav-womens" href="{% url products_completebikes_womens %}" class="active">
+		<span>WOMENS</span>
+	</a>
+	<ul>
+		{% for bike in object_list %}
+		<li>
+			<a href="{{ bike.get_absolute_url }}">{{ bike }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+  </li>
+ </ul>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="product-title">
+  <img src="{{ MEDIA_URL}}/img/title-bikes.gif" />
+</div>
+
+{% for product in object_list %}
+
+{% include "products/listing.html" %}
+
+{% endfor %}
+
+{% endblock %}

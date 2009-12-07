@@ -12,21 +12,28 @@
 <body>
 <div id="window">
 <div id="page">
-  <div id="nav">
+  <div id="navigation0">
   {% url home as url_home %}
+  
   {% url products_completebikes as url_products_bikes %}
+  {% url products_completebikes_mens as url_products_bikes_mens %}
+  {% url products_completebikes_womens as url_products_bikes_womens %}
+
   {% url products_parts as url_products_parts %}
   {% url products_softgoods as url_products_softgoods %}
   {% url dealers as url_dealers %}
   {% url about as url_about %}
-    <ul>
+    <ul id="nav">
       <li>
         <a {% ifequal request.path url_home %}class="active"{% endifequal %} href='{{ url_home }}' id="nav-home">
           <span>HOME</span>
         </a>
       </li>
       <li>
-        <a {% ifequal request.path url_products_bikes %}class="active"{% endifequal %} href='{{ url_products_bikes }}' id="nav-bikes">
+        <a {% ifequal request.path url_products_bikes %}class="active"{% endifequal %} 
+           {% ifequal request.path url_products_bikes_mens %}class="active"{% endifequal %} 
+           {% ifequal request.path url_products_bikes_womens %}class="active"{% endifequal %} 
+           href='{{ url_products_bikes }}' id="nav-bikes">
           <span>BIKES</span>
         </a>
       </li>
@@ -36,7 +43,7 @@
         </a>
       </li>
       <li>
-        <a {% ifequal request.path url_products_softgoods %}class="active"{% endifequal %} href='{{ url_products_softgoods }}' id="nav-softgoods">
+        <a {% ifequal request.path url_products_softgoods %}class="active"{% endifequal %} href='{{ url_products_softgoods }}' id="nav-apparel">
           <span>SOFTGOODS</span>
         </a>
       </li>
@@ -51,6 +58,9 @@
         </a>
       </li>
     </ul>
+  </div>
+  <div id="extra_nav">
+    {% block extra_nav %}{% endblock %}
   </div>
   <div id="teaser">
     {% block teaser %}{% endblock %}

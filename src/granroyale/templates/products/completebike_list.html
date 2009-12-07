@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
+{% block extra_nav %}
+
+<div id="navigation1" class="extra_nav-bikes">
+ <ul id="extra_nav">
+  <li><a id="nav-mens" href="{% url products_completebikes_mens %}"><span>MENS</span></a></li>
+  <li><a id="nav-womens" href="{% url products_completebikes_womens %}"><span>WOMENS</span></a></li>
+ </ul>
+</div>
+
+{% endblock %}
+
 {% block content %}
 
 
@@ -7,10 +18,17 @@
   <img src="{{ MEDIA_URL}}/img/title-bikes.gif" />
 </div>
 
-{% for product in object_list %}
+<div class="bicol">
+  <div style="margin:10px;padding:50px;background:#ddd;text-align:center">
+    <a href="{% url products_completebikes_mens %}">MENS</a>
+  </div>
+</div>
+<div class="bicol">
+  <div style="margin:10px;padding:50px 0px;background:#ddd;text-align:center">
+    <a href="{% url products_completebikes_womens %}">WOMENS</a>
+  </div>
+</div>
+<div class="clear"></div>
 
-{% include "products/listing.html" %}
-
-{% endfor %}
 
 {% endblock %}
