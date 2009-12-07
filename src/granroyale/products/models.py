@@ -48,7 +48,8 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    pdf = models.FileField(_('Printable PDF'), upload_to='products/pdf/')
+    pdf = models.FileField(_('Printable PDF'), upload_to='products/pdf/',
+                           blank=True, null=True)
 
     objects = ProductManager()
     
