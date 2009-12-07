@@ -184,8 +184,9 @@ class Photo(ImageModel):
     ]
     
     title = models.CharField(_('Photo title'), max_length=128)
+    description = models.TextField(_('Photo description'), null=True, blank=True)
     original_image = models.ImageField(upload_to='photos/products/')
-
+	
     main_photo = models.BooleanField(_("Main photo for product"), default=False)
 
     parent_photo = models.ForeignKey('self', related_name="angles", null=True, blank=True,)

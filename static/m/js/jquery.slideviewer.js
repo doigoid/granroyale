@@ -23,7 +23,13 @@ jQuery.fn.slideView = function(settings) {
 		container.each(function(i) {
 			jQuery(this).after("<div class='stripTransmitter' id='stripTransmitter" + (j) + "'><ul><\/ul><\/div>");
 			jQuery(this).find("li").each(function(n) {
-						jQuery("div#stripTransmitter" + j + " ul").append("<li><a title='" + jQuery(this).find("img").attr("alt") + "' href='#'>"+(n+1)+"<\/a><\/li>");												
+						//jQuery("div#stripTransmitter" + j + " ul").append("<li><a title='" + jQuery(this).find("img").attr("alt") + "' href='#'>"+(n+1)+"<\/a><\/li>");						 
+						//var slide_link = jQuery(this).find("img").attr("alt");
+						var image = jQuery(this).find("a").attr('href').split('/');
+						image = image[image.length - 1];
+						var thumb = image.replace(/.jpg/i, "_s_thumbnail_image.jpg"); 												
+						var slide_link = "<img src='/m/photos/"+thumb+"' border='0' />";
+						jQuery("div#stripTransmitter" + j + " ul").append("<li><a title='" + jQuery(this).find("img").attr("alt") + "' href='javascript://'>"+slide_link+"<\/a><\/li>");												
 				});
 			jQuery("div#stripTransmitter" + j + " a").each(function(z) {
 				jQuery(this).bind("click", function(){
@@ -35,6 +41,9 @@ jQuery.fn.slideView = function(settings) {
 
 				var cnt = -(pictWidth*z);
 				container.find("ul").animate({ left: cnt}, settings.easeTime, settings.easeFunc);
+				var description = jQuery("span#slide"+ (z+1)).html();
+				//console.log(description);
+				jQuery("#photo-description").html(description);
 				return false;
 				   });
 				});
@@ -63,6 +72,7 @@ jQuery.fn.slideView = function(settings) {
 				});
 			}
 			});
+
 		j++;
-  });	
+  });
 };

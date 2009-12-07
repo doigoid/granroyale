@@ -2,6 +2,11 @@
 
 {% block head %}
 {% include "slideviewer.html" %}
+<script>
+$(document).ready(function(){
+	$("#photo-description").html($("#slide1").html());
+});
+</script>
 {% endblock %}
 
 {% block content %}
@@ -14,14 +19,17 @@
   <div id="slideview" class="svw"> 
     <ul> 
       {% for photo in object.primary_photos.all %}
-        <li><a href="{{ photo.original_image.url }}"><img alt="{{ photo.title }}" border="0" src="{{ photo.display.url }}" /></a></li> 
+        <li>
+			<a href="{{ photo.original_image.url }}"><img alt="{{ photo.title }}" border="0" src="{{ photo.display.url }}" /></a>
+			<span id="slide{{ forloop.counter }}" style="display:none">{% if photo.description %}{{ photo.description }}{% endif %}</span>
+		</li> 
       {% endfor %}
     </ul> 
   </div>
 </div>
 <div>
   <img src="{{ MEDIA_URL }}{{ object.small_product_logo }}" />
-  
+	<div id="photo-description"></div>  
 </div>
 
 <div class="clear"></div>
