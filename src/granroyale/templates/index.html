@@ -1,23 +1,85 @@
 {% extends "base.html" %}
 
-{% block teaser %}
-<img src="{{ MEDIA_URL }}/img/teaser-zack.gif" />
+{% block head %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
 
-<div class="tricol">
-<h3>Welcome to Gran Royale</h3>
-<p>We've got some simple, solid, and fun products on the way for you.  In the mean time, feel free to check out the site.</p>
+<style>
+
+#burt { position:relative; height:580px; width:800px; margin:0 auto 20px auto; }
+#burt div a { display:block; width:100%; height:100%; }
+
+#topleft { position:absolute; top:0px; left:0px; width:260px; height:280px; }
+#topleft a { background:transparent url('{{ MEDIA_URL }}img/burt/frame-bikes.png'); }
+
+#topright { position:absolute; top:0px; right:0px; width:260px; height:280px; }
+#topright a { background:transparent url('{{ MEDIA_URL }}img/burt/frame-apparel.png') top left no-repeat; }
+
+#bottomleft { position:absolute; top:300px; left:0px; width:260px; height:280px; }
+#bottomleft a { background:transparent url('{{ MEDIA_URL }}img/burt/frame-accessories.png') top left no-repeat; }
+
+#bottomright { position:absolute; top:300px; right:0px; width:260px; height:280px; }
+#bottomright a { background:transparent url('{{ MEDIA_URL }}img/burt/frame-about.png') top left no-repeat; }
+
+#bottom { position:absolute; bottom:0px; left:260px; width:280px; height:20px; }
+#bottom a { background:transparent url('{{ MEDIA_URL }}img/burt/frame-dealers.png') top left no-repeat; }
+
+#middle { position:absolute; top:0px; left:260px; width:282px; height:580px; }
+
+#middle:hover {  background-image:url('{{ MEDIA_URL }}img/burt/burt-hover.png'); }
+
+.burt-normal { background-image:url('{{ MEDIA_URL }}img/burt/burt.png'); }
+.burt-topleft { background-image:url('{{ MEDIA_URL }}img/burt/burt-topleft.png'); }
+.burt-topright { background-image:url('{{ MEDIA_URL }}img/burt/burt-topright.png'); }
+.burt-bottomleft { background-image:url('{{ MEDIA_URL }}img/burt/burt-bottomleft.png'); }
+.burt-bottomright { background-image:url('{{ MEDIA_URL }}img/burt/burt-bottomright.png'); }
+.burt-bottom { background-image:url('{{ MEDIA_URL }}img/burt/burt-bottom.png'); }
+
+</style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#burt>div').each(function(i, frame){
+    $(frame).children('a').hover(
+      function() {
+        $(this).css('background-position','0px 100%');
+        $('#middle').toggleClass('burt-' + frame.id);
+      },
+      function() {
+        $(this).css('background-position','0px 0px');
+        $('#middle').toggleClass('burt-' + frame.id);
+      }
+    );
+  });      
+});
+</script>
+
+<div id="burt">
+
+    <div id="topleft">
+      <a href="{% url products_completebikes %}">&nbsp;</a>
+    </div>
+    <div id="topright">
+      <a href="{% url products_softgoods %}"></a>
+    </div>
+    <div id="bottomleft">
+      <a href="{% url products_parts %}"></a>
+    </div>
+    <div id="bottomright">
+      <a href="{% url about %}"></a>
+    </div>
+    <div id="middle" class="burt-normal">&nbsp;</div>
+    <div id="bottom">
+      <a href="{% url dealers %}"></a>
+    </div>
+
 </div>
 
-<div class="tricol">
 
-</div>
+<div class="clear"></div>
 
-<div class="tricol">
-
-</div>
 
 
 <div class="clear"></div>
